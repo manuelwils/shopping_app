@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class Product with ChangeNotifier {
   final String? id;
   final String? title;
-  final int? amount;
+  final double? amount;
   final String? image;
   final String? desc;
   bool isFavorite;

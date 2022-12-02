@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_app/providers/product.dart';
-import 'package:shopping_app/screens/product_detail_screen.dart';
+
+import '../providers/cart_provider.dart';
+import '../providers/product.dart';
+import '../screens/product_detail_screen.dart';
 
 class ProductItem extends StatelessWidget {
   @override
@@ -31,12 +33,20 @@ class ProductItem extends StatelessWidget {
               product.title!,
               style: TextStyle(color: Theme.of(context).accentColor),
             ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Theme.of(context).accentColor,
+            trailing: Consumer<CartProvider>(
+              builder: (ctx, cartItem, ch) => IconButton(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Theme.of(context).accentColor,
+                ),
+                onPressed: () {
+                  cartItem.addToCart(
+                    product.id!,
+                    product.title!,
+                    product.amount!,
+                  );
+                },
               ),
-              onPressed: () {},
             ),
           ),
         ),
