@@ -20,8 +20,6 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   bool _showFavorite = false;
   @override
   Widget build(BuildContext context) {
-    final ProductProvider productsContainer =
-        Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shopping App'),
