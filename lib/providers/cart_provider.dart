@@ -1,11 +1,9 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/CartItem.dart';
+import '../models/cart_item.dart';
 
 class CartProvider extends ChangeNotifier {
   final Map<String, CartItem> _items = {};
-
-  double total = 0;
 
   Map<String, CartItem> get items {
     return {..._items};
@@ -13,6 +11,14 @@ class CartProvider extends ChangeNotifier {
 
   int get itemCount {
     return items.length;
+  }
+
+  double get totalSum {
+    double total = 0.0;
+    _items.forEach((key, item) {
+      total += item.amount! * item.quatity!;
+    });
+    return total;
   }
 
   void addToCart(String productId, String title, double amount) {
