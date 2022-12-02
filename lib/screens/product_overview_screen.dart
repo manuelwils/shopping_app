@@ -32,7 +32,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                 if (option == FilterOption.favorite) {
                   _showFavorite = true;
                 } else {
-                  _showFavorite = true;
+                  _showFavorite = false;
                 }
               });
             },
