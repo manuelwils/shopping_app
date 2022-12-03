@@ -38,17 +38,20 @@ class CartScreen extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.all(5),
                     backgroundColor: Theme.of(context).primaryColor,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'ORDER NOW',
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                    shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
                     ),
                   ),
+                  // ElevatedButton(
+                  //   onPressed: () {},
+                  //   child: Text(
+                  //     'ORDER NOW',
+                  //     style: TextStyle(color: Theme.of(context).primaryColor),
+                  //   ),
+                  //   style: ButtonStyle(
+                  //     backgroundColor: MaterialStateProperty.all(Colors.white),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -70,6 +73,18 @@ class CartScreen extends StatelessWidget {
             ),
           )
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        height: 40,
+        width: 100,
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: const Text('ORDER NOW'),
+          backgroundColor: Theme.of(context).primaryColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
       ),
     );
   }

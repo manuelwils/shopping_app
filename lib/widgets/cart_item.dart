@@ -24,15 +24,20 @@ class CartItem extends StatelessWidget {
       },
       background: Container(
         padding: const EdgeInsets.symmetric(vertical: 4),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.red,
+          borderRadius: BorderRadius.circular(5),
         ),
-        child: const Icon(
-          Icons.delete,
-          size: 40,
-          color: Colors.white,
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.delete,
+            size: 40,
+            color: Colors.white,
+          ),
         ),
         alignment: Alignment.centerRight,
+        margin: const EdgeInsets.only(right: 20, top: 5, bottom: 5),
       ),
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
@@ -41,7 +46,7 @@ class CartItem extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: FittedBox(
-                child: Text( 
+                child: Text(
                   '\$$amount',
                 ),
               ),
