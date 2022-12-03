@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
+import '../providers/order_provider.dart';
 import '../widgets/cart_item.dart';
+import './order_screen.dart';
 
 class CartScreen extends StatelessWidget {
   static const String routeName = '/cart';
@@ -78,12 +80,19 @@ class CartScreen extends StatelessWidget {
       floatingActionButton: SizedBox(
         height: 40,
         width: 100,
-        child: FloatingActionButton(
-          onPressed: () {},
-          child: const Text('ORDER NOW'),
-          backgroundColor: Theme.of(context).primaryColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Consumer<OrderProvider>(
+          builder: (context, orders, ch) => FloatingActionButton(
+            onPressed: () {
+              orders.addOrders(cart, cart.totalSum);
+              cart.clear();
+              Navigator.of(context).pushNamed(OrderScreen.routeName);
+            },
+            child: const Text('ORDER NOW'),
+            backgroundColor: Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
         ),
       ),
     );
