@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 
-import '../providers/cart_provider.dart';
+import '../models/cart_item.dart';
 
-class Order {
+class OrderItem {
   final String? id;
   final double? amount;
-  final List<CartProvider>? products;
-  final String? orderTime;
+  final List<CartItem>? products;
+  final DateTime? orderTime;
 
-  Order({
+  OrderItem({
     @required this.id,
     @required this.amount,
     @required this.products,
