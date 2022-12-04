@@ -53,4 +53,13 @@ class CartProvider extends ChangeNotifier {
     _items = {};
     notifyListeners();
   }
+
+  void removeProduct(String productId) {
+    if (_items.isEmpty) return;
+    _items.forEach((key, value) {
+      if (_items['key'].toString() == productId) {
+        print(_items['key']);
+      }
+    });
+  }
 }
