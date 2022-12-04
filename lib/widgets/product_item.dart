@@ -46,10 +46,12 @@ class ProductItem extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text('Added to Cart'),
+                      duration: const Duration(seconds: 2),
                       action: SnackBarAction(
                         label: 'UNDO',
                         onPressed: () {
-                          
+                          Provider.of<CartProvider>(context, listen: false)
+                              .removeSingleProduct(product.id!);
                         },
                       ),
                     ),

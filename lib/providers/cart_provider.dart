@@ -26,19 +26,21 @@ class CartProvider extends ChangeNotifier {
       _items.update(
         productId,
         (existingItem) => CartItem(
-            id: existingItem.id,
-            title: existingItem.title,
-            amount: existingItem.amount,
-            quatity: existingItem.quatity! + 1),
+          id: existingItem.id,
+          title: existingItem.title,
+          amount: existingItem.amount,
+          quatity: existingItem.quatity! + 1,
+        ),
       );
     } else {
       _items.putIfAbsent(
         productId,
         () => CartItem(
-            id: DateTime.now().toString(),
-            title: title,
-            amount: amount,
-            quatity: 1),
+          id: DateTime.now().toString(),
+          title: title,
+          amount: amount,
+          quatity: 1,
+        ),
       );
     }
     notifyListeners();
@@ -54,12 +56,21 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeProduct(String productId) {
-    if (_items.isEmpty) return;
-    _items.forEach((key, value) {
-      if (_items['key'].toString() == productId) {
-        print(_items['key']);
-      }
-    });
+  void removeSingleProduct(String productId) {
+    if (!_items.containsKey(productId)) return;
+    if (_items[productId]!.quatity! > 1) {
+      _items.update(
+        productId,
+        (existingItem) => CartItem(
+          id: existingItem.id,
+          title: existingItem.title,
+          amount: existingItem.amount,
+          quatity: existingItem.quatity! - 1,
+        ),
+      );
+    } else {
+      _items.remove(productId);
+    }
+    notifyListeners();
   }
 }

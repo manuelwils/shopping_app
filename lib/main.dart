@@ -1,31 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/cart_screen.dart';
-import './screens/product_detail_screen.dart';
+import './bootstrap/app_providers.dart';
+import './routes/page_routes.dart';
 import './screens/product_overview_screen.dart';
-import './providers/product_provider.dart';
-import './providers/cart_provider.dart';
-import './providers/order_provider.dart';
-import './screens/order_screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => ProductProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => OrderProvider(),
-        ),
-      ],
+      providers: appProviders,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ShoppingApp',
@@ -34,12 +22,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrange,
         ),
         home: const ProductOverviewScreen(),
-        routes: {
-          ProductDetailScreen.routeName: (context) =>
-              const ProductDetailScreen(),
-          CartScreen.routeName: (context) => const CartScreen(),
-          OrderScreen.routeName: (context) => const OrderScreen(),
-        },
+        routes: pageRoutes,
       ),
     );
   }
