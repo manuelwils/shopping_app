@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../dummy_products.dart';
-import '../models/product.dart';
+import '../models/Product.dart';
 
 class ProductProvider with ChangeNotifier {
   final List<Product> _items = dummyProducts;
@@ -18,8 +18,13 @@ class ProductProvider with ChangeNotifier {
     return items.firstWhere((element) => element.id == id);
   }
 
-  void addProduct() {
-    //todo
+  void addProduct(Product product) {
+    _items.add(product);
+    notifyListeners();
+  }
+
+  void deleteProduct(String productId) {
+    _items.removeWhere((product) => product.id == productId);
     notifyListeners();
   }
 }

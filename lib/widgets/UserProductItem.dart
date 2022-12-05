@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ManageProductItem extends StatelessWidget {
+import '../providers/ProductProvider.dart';
+import 'components/DeleteDialog.dart';
+
+class UserProductItem extends StatelessWidget {
   final String id;
   final String image;
   final String title;
 
-  const ManageProductItem(this.id, this.title, this.image);
+  const UserProductItem(this.id, this.title, this.image);
 
   @override
   Widget build(BuildContext context) {
+    final productsData = Provider.of<ProductProvider>(context);
     return Column(
       children: [
         ListTile(
@@ -28,7 +33,11 @@ class ManageProductItem extends StatelessWidget {
                   icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => showDeleteDialog(context).then((value) {
+                    if (value == true) {
+                      productsData.deleteProduct(id);
+                    }
+                  }),
                   icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
                 ),
               ],
