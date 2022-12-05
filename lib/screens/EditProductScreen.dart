@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_app/dummy_products.dart';
 
 import '../models/Product.dart';
 import '../providers/ProductProvider.dart';
@@ -15,16 +14,49 @@ class EditProductScreen extends StatefulWidget {
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
-  Product newProduct = Product(
-      id: DateTime.now().toString(), title: '', amount: 0, image: '', desc: '');
+  Map initProductValues = {
+    'id': null,
+    'title': '',
+    'amount': '',
+    'image': '',
+    'desc': '',
+    'favorite': false,
+  };
+  Product newProduct =
+      Product(id: null, title: '', amount: 0, image: '', desc: '');
 
   final _form = GlobalKey<FormState>();
 
   final _titleFocus = FocusNode();
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
-
   final TextEditingController _imageController = TextEditingController();
+
+  bool dependencyChanged = false;
+  @override
+  void didChangeDependencies() {
+    if (!dependencyChanged) {
+      final productId = ModalRoute.of(context)!.settings.arguments;
+
+      if (productId != null) {
+        final product = Provider.of<ProductProvider>(context, listen: false)
+            .findById(productId.toString());
+        initProductValues = {
+          'id': product.id,
+          'title': product.title,
+          'amount': product.amount.toString(),
+          'image': product.image,
+          'desc': product.desc,
+          'favorite': product.isFavorite,
+        };
+        _imageController.text = product.image!;
+        newProduct = product;
+      }
+
+      dependencyChanged = true;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   void dispose() {
@@ -45,7 +77,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (!isValid) return;
     _form.currentState!.save();
 
-    Provider.of<ProductProvider>(context, listen: false).addProduct(newProduct);
+    if (newProduct.id != null) {
+      Provider.of<ProductProvider>(context, listen: false)
+          .editProduct(newProduct.id!, newProduct);
+    } else {
+      Provider.of<ProductProvider>(context, listen: false)
+          .addProduct(newProduct);
+    }
     Navigator.of(context).pop();
 
     // _form.currentState!.reset();
@@ -66,6 +104,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             child: Column(
               children: [
                 TextFormField(
+                  initialValue: initProductValues['title'],
                   decoration: const InputDecoration(
                     label: Text('Title'),
                   ),
@@ -86,9 +125,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     amount: newProduct.amount,
                     image: newProduct.image,
                     desc: newProduct.desc,
+                    isFavorite: initProductValues['favorite'],
                   ),
                 ),
                 TextFormField(
+                  initialValue: initProductValues['amount'],
                   decoration: const InputDecoration(
                     label: Text('Price'),
                   ),
@@ -109,9 +150,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     amount: double.parse(value!),
                     image: newProduct.image,
                     desc: newProduct.desc,
+                    isFavorite: initProductValues['favorite'],
                   ),
                 ),
                 TextFormField(
+                  initialValue: initProductValues['desc'],
                   decoration: const InputDecoration(
                     label: Text('Description'),
                   ),
@@ -169,6 +212,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             amount: newProduct.amount,
                             image: value,
                             desc: newProduct.desc,
+                            isFavorite: initProductValues['favorite'],
                           ),
                         ),
                       ),
