@@ -11,7 +11,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   List<Product> get favorite {
-    return [..._items.where((product) => product.isFavorite)];
+    return [..._items.where((product) => product.favorite)];
   }
 
   Product findById(String id) {
@@ -24,7 +24,7 @@ class ProductProvider with ChangeNotifier {
       title: product.title,
       amount: product.amount,
       image: product.image,
-      desc: product.desc,
+      description: product.description,
     );
     _items.add(newProduct);
     notifyListeners();

@@ -19,11 +19,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
     'title': '',
     'amount': '',
     'image': '',
-    'desc': '',
+    'description': '',
     'favorite': false,
   };
   Product newProduct =
-      Product(id: null, title: '', amount: 0, image: '', desc: '');
+      Product(id: null, title: '', amount: 0, image: '', description: '');
 
   final _form = GlobalKey<FormState>();
 
@@ -46,8 +46,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
           'title': product.title,
           'amount': product.amount.toString(),
           'image': product.image,
-          'desc': product.desc,
-          'favorite': product.isFavorite,
+          'description': product.description,
+          'favorite': product.favorite,
         };
         _imageController.text = product.image!;
         newProduct = product;
@@ -124,8 +124,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     title: value,
                     amount: newProduct.amount,
                     image: newProduct.image,
-                    desc: newProduct.desc,
-                    isFavorite: initProductValues['favorite'],
+                    description: newProduct.description,
+                    favorite: initProductValues['favorite'],
                   ),
                 ),
                 TextFormField(
@@ -135,6 +135,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   ),
                   keyboardType: TextInputType.number,
                   focusNode: _priceFocus,
+                  onFieldSubmitted: (value) {
+                    FocusScope.of(context).requestFocus(_descriptionFocus);
+                  },
                   validator: (value) {
                     if (value!.isEmpty || double.tryParse(value) == null) {
                       if (double.parse(value) <= 0) {
@@ -149,8 +152,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     title: newProduct.title,
                     amount: double.parse(value!),
                     image: newProduct.image,
-                    desc: newProduct.desc,
-                    isFavorite: initProductValues['favorite'],
+                    description: newProduct.description,
+                    favorite: initProductValues['favorite'],
                   ),
                 ),
                 TextFormField(
@@ -172,7 +175,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     title: newProduct.title,
                     amount: newProduct.amount,
                     image: newProduct.image,
-                    desc: value,
+                    description: value,
                   ),
                 ),
                 Row(
@@ -211,8 +214,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             title: newProduct.title,
                             amount: newProduct.amount,
                             image: value,
-                            desc: newProduct.desc,
-                            isFavorite: initProductValues['favorite'],
+                            description: newProduct.description,
+                            favorite: initProductValues['favorite'],
                           ),
                         ),
                       ),
