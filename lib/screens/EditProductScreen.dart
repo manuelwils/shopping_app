@@ -45,10 +45,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (!isValid) return;
     _form.currentState!.save();
 
-    dummyProducts.add(newProduct);
+    Provider.of<ProductProvider>(context, listen: false).addProduct(newProduct);
+    Navigator.of(context).pop();
 
-    _form.currentState!.reset();
-    _imageController.text = '';
+    // _form.currentState!.reset();
+    // _imageController.text = '';
   }
 
   @override
@@ -94,8 +95,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   keyboardType: TextInputType.number,
                   focusNode: _priceFocus,
                   validator: (value) {
-                    if (!RegExp(r'[0-9]+').hasMatch(value!)) {
-                      return 'Price must be greater than 0';
+                    if (value!.isEmpty || double.tryParse(value) == null) {
+                      if (double.parse(value) <= 0) {
+                        return 'Price must be greater than 0';
+                      }
+                      return 'Please enter a valid price';
                     }
                     return null;
                   },

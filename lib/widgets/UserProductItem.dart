@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/ProductProvider.dart';
+import '../screens/EditProductScreen.dart';
 import 'components/DeleteDialog.dart';
 
 class UserProductItem extends StatelessWidget {
@@ -29,7 +30,8 @@ class UserProductItem extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(EditProductScreen.routeName, arguments: id),
                   icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
                 ),
                 IconButton(
