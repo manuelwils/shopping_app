@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/Product.dart';
+import '../Models/Product.dart';
 import '../Config/Url.dart';
 import '../Exceptions/HttpException.dart';
 

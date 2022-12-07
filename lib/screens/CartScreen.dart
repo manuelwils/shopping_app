@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/CartProvider.dart';
-import '../providers/OrderProvider.dart';
-import '../widgets/CartItem.dart';
-import 'OrderScreen.dart';
+import '../Providers/CartProvider.dart';
+import '../Providers/OrderProvider.dart';
+import '../Widgets/CartItem.dart';
+import '../Widgets/Components/AlertDialog.dart';
+import './OrderScreen.dart';
 
 class CartScreen extends StatelessWidget {
   static const String routeName = '/cart';
@@ -44,16 +45,6 @@ class CartScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () {},
-                  //   child: Text(
-                  //     'ORDER NOW',
-                  //     style: TextStyle(color: Theme.of(context).primaryColor),
-                  //   ),
-                  //   style: ButtonStyle(
-                  //     backgroundColor: MaterialStateProperty.all(Colors.white),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -81,11 +72,15 @@ class CartScreen extends StatelessWidget {
         height: 40,
         width: 100,
         child: FloatingActionButton(
-          onPressed: () {
-            Provider.of<OrderProvider>(context, listen: false)
-                .addOrders(cart.items.values.toList(), cart.totalSum);
-            cart.clear();
-            Navigator.of(context).pushReplacementNamed(OrderScreen.routeName);
+          onPressed: () async {
+            await Provider.of<OrderProvider>(context, listen: false)
+                .addOrders(cart.items.values.toList(), cart.totalSum)
+                .catchError((exception) async {
+              await showAlertDialog(context, 'Whoops!', exception.toString());
+            }).then((_) {
+              cart.clear();
+              Navigator.of(context).pushReplacementNamed(OrderScreen.routeName);
+            });
           },
           child: const Text('ORDER NOW'),
           backgroundColor: Theme.of(context).primaryColor,

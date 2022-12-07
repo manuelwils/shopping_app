@@ -1,9 +1,9 @@
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import '../providers/ProductProvider.dart';
-import '../providers/CartProvider.dart';
-import '../providers/OrderProvider.dart';
+import '../Providers/ProductProvider.dart';
+import '../Providers/CartProvider.dart';
+import '../Providers/OrderProvider.dart';
 
 List<SingleChildWidget> appProviders = [
   ChangeNotifierProvider(

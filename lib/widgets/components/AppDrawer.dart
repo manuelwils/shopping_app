@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../screens/UserProductScreen.dart';
-import '../../screens/OrderScreen.dart';
+import '../../Screens/UserProductScreen.dart';
+import '../../Screens/OrderScreen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);

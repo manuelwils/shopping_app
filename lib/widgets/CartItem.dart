@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/CartProvider.dart';
-import 'components/DeleteDialog.dart';
+import '../Providers/CartProvider.dart';
+import './Components/DeleteDialog.dart';
 
 class CartItem extends StatelessWidget {
   final String? productId;

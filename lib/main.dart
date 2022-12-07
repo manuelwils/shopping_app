@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'bootstrap/AppProviders.dart';
-import 'routes/PageRoutes.dart';
-import 'screens/ProductOverviewScreen.dart';
+import './Bootstrap/AppProviders.dart';
+import './Routes/PageRoutes.dart';
+import './Screens/ProductOverviewScreen.dart';
 
 void main() => runApp(const MyApp());
 

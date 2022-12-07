@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:shopping_app/Exceptions/HttpException.dart';
 
+import '../Exceptions/HttpException.dart';
 import '../Config/Url.dart';
 
 class Product with ChangeNotifier {
