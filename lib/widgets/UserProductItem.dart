@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/ProductProvider.dart';
 import '../screens/EditProductScreen.dart';
+import 'Components/SnackBar.dart';
 import 'components/DeleteDialog.dart';
 
 class UserProductItem extends StatelessWidget {
@@ -15,6 +16,7 @@ class UserProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<ProductProvider>(context);
+    final BuildContext _ctx = context;
     return Column(
       children: [
         ListTile(
@@ -35,11 +37,18 @@ class UserProductItem extends StatelessWidget {
                   icon: Icon(Icons.edit, color: Theme.of(context).primaryColor),
                 ),
                 IconButton(
-                  onPressed: () => showDeleteDialog(context).then((value) {
-                    if (value == true) {
-                      productsData.deleteProduct(id);
-                    }
-                  }),
+                  onPressed: () async {
+                    return showDeleteDialog(context).then((value) async {
+                      if (value == true) {
+                        try {
+                          await productsData.deleteProduct(id);
+                        } catch (exception) {
+                          showSnackBar(
+                              _ctx, 'Could not delete item', '', () {});
+                        }
+                      }
+                    });
+                  },
                   icon: Icon(Icons.delete, color: Theme.of(context).errorColor),
                 ),
               ],

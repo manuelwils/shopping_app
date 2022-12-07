@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 class Product with ChangeNotifier {
   final String? id;
@@ -17,7 +18,13 @@ class Product with ChangeNotifier {
     this.favorite = false,
   });
 
-  void toggleFavoriteStatus() {
+  Future<void> toggleFavoriteStatus() async {
+    final bool oldStatus = favorite;
+    try {
+      //await http.patch(url);
+    } catch (exception) {
+      throw exception;
+    }
     favorite = !favorite;
     notifyListeners();
   }

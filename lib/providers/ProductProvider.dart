@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/Product.dart';
+import '../Config/Url.dart';
+import '../Exceptions/HttpException.dart';
 
 class ProductProvider with ChangeNotifier {
   List<Product> _items = [];
-  final String _baseUrl = 'https://ebce-160-152-56-245.ngrok.io/api';
 
   List<Product> get items {
     return [..._items];
@@ -22,7 +23,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> loadAllProducts() async {
-    final productGetUrl = Uri.parse(_baseUrl + '/product/all');
+    final productGetUrl = Uri.parse(Url.to['product']!['fetch']!);
     final List<Product> loadedProducts = [];
 
     try {
@@ -49,7 +50,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final productPostUrl = Uri.parse(_baseUrl + '/product/store');
+    final productPostUrl = Uri.parse(Url.to['product']!['store']!);
 
     final productBody = {
       'title': product.title,
@@ -62,10 +63,7 @@ class ProductProvider with ChangeNotifier {
       final response = await http.post(
         productPostUrl,
         body: jsonEncode(productBody),
-        headers: {
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: Url.headers['json_headers'],
       );
       final Map<String, dynamic> result = jsonDecode(response.body);
       final newProduct = Product(
@@ -91,8 +89,24 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteProduct(String productId) {
-    _items.removeWhere((product) => product.id == productId);
+  Future<void> deleteProduct(String productId) async {
+    final productPostUrl =
+        Uri.parse(Url.to['product']!['delete']! + '/$productId');
+
+    final prodIndex = _items.indexWhere((product) => product.id == productId);
+    final oldProduct = _items[prodIndex];
+
+    try {
+      final response = await http.delete(productPostUrl);
+      if (response.statusCode >= 400) {
+        _items.insert(prodIndex, oldProduct);
+        notifyListeners();
+      }
+    } catch (exception) {
+      throw const HttpException('Could\'t delete item');
+    }
+
+    _items.removeAt(prodIndex);
     notifyListeners();
   }
 }
