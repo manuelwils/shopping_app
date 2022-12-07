@@ -88,13 +88,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
           .editProduct(newProduct.id!, newProduct)
           .catchError((exception) async {
         await showAlertDialog(context, 'Whoops!', exception.toString());
-      }).then((value) => Navigator.of(context).pop());
+      }).then((_) => Navigator.of(context).pop());
     } else {
       await Provider.of<ProductProvider>(context, listen: false)
           .addProduct(newProduct)
           .catchError((exception) async {
         await showAlertDialog(context, 'Whoops!', exception.toString());
-      }).then((value) => Navigator.of(context).pop());
+      }).then((_) => Navigator.of(context).pop());
     }
 
     setState(() {

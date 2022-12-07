@@ -84,7 +84,7 @@ class ProductProvider with ChangeNotifier {
 
   Future<void> editProduct(String productId, Product product) async {
     final _editProductUrl =
-        Uri.parse(Url.to['product']!['update']! + '/$productId');
+        Uri.parse(Url.to['product']!['edit']! + '/$productId');
     final _prodIndex = _items.indexWhere((product) => product.id == productId);
 
     if (_prodIndex == -1) {
@@ -101,7 +101,6 @@ class ProductProvider with ChangeNotifier {
     final _response = await http.put(
       _editProductUrl,
       body: _productBody,
-      headers: Url.headers['json_headers'],
     );
 
     if (_response.statusCode >= 400) {
