@@ -66,6 +66,7 @@ class ProductProvider with ChangeNotifier {
         headers: Url.headers['json_headers'],
       );
       final Map<String, dynamic> result = jsonDecode(response.body);
+
       final newProduct = Product(
         id: result['id'].toString(),
         title: product.title,
@@ -94,19 +95,21 @@ class ProductProvider with ChangeNotifier {
         Uri.parse(Url.to['product']!['delete']! + '/$productId');
 
     final prodIndex = _items.indexWhere((product) => product.id == productId);
-    final oldProduct = _items[prodIndex];
-
-    try {
-      final response = await http.delete(productPostUrl);
-      if (response.statusCode >= 400) {
-        _items.insert(prodIndex, oldProduct);
-        notifyListeners();
-      }
-    } catch (exception) {
-      throw const HttpException('Could\'t delete item');
-    }
+    Product? oldProduct = _items[prodIndex];
 
     _items.removeAt(prodIndex);
     notifyListeners();
+
+    final response = await http.delete(
+      productPostUrl,
+      headers: Url.headers['json_headers'],
+    );
+
+    if (response.statusCode >= 400) {
+      _items.insert(prodIndex, oldProduct);
+      oldProduct = null;
+      notifyListeners();
+      throw const HttpException('Couldn\'t delete item');
+    }
   }
 }

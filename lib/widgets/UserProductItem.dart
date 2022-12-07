@@ -40,12 +40,10 @@ class UserProductItem extends StatelessWidget {
                   onPressed: () async {
                     return showDeleteDialog(context).then((value) async {
                       if (value == true) {
-                        try {
-                          await productsData.deleteProduct(id);
-                        } catch (exception) {
-                          showSnackBar(
-                              _ctx, 'Could not delete item', '', () {});
-                        }
+                        await productsData.deleteProduct(id).catchError(
+                              (exception) => showSnackBar(
+                                  _ctx, exception.toString(), '', () {}),
+                            );
                       }
                     });
                   },
