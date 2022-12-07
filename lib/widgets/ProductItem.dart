@@ -27,7 +27,16 @@ class ProductItem extends StatelessWidget {
                   product.favorite ? Icons.favorite : Icons.favorite_border,
                   color: Theme.of(context).accentColor,
                 ),
-                onPressed: () => product.toggleFavoriteStatus(),
+                onPressed: () async => await product
+                    .toggleFavoriteStatus()
+                    .catchError((exception) {
+                  showSnackBar(
+                    context,
+                    exception.toString(),
+                    '',
+                    () {},
+                  );
+                }),
               ),
             ),
             title: Text(

@@ -43,6 +43,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       if (productId != null) {
         final product = Provider.of<ProductProvider>(context, listen: false)
             .findById(productId.toString());
+
         initProductValues = {
           'id': product.id,
           'title': product.title,
@@ -54,7 +55,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
         _imageController.text = product.image!;
         newProduct = product;
       }
-
       dependencyChanged = true;
     }
     super.didChangeDependencies();
@@ -84,22 +84,22 @@ class _EditProductScreenState extends State<EditProductScreen> {
     });
 
     if (newProduct.id != null) {
-      Provider.of<ProductProvider>(context, listen: false)
-          .editProduct(newProduct.id!, newProduct);
+      await Provider.of<ProductProvider>(context, listen: false)
+          .editProduct(newProduct.id!, newProduct)
+          .catchError((exception) async {
+        await showAlertDialog(context, 'Whoops!', exception.toString());
+      }).then((value) => Navigator.of(context).pop());
     } else {
-      try {
-        await Provider.of<ProductProvider>(context, listen: false)
-            .addProduct(newProduct);
-        Navigator.of(context).pop();
-      } catch (exception) {
-        await showAlertDialog(
-            context, 'Whoops!', 'Something went wrong somewhere, try again');
-      } finally {
-        setState(() {
-          isPageLoading = false;
-        });
-      }
+      await Provider.of<ProductProvider>(context, listen: false)
+          .addProduct(newProduct)
+          .catchError((exception) async {
+        await showAlertDialog(context, 'Whoops!', exception.toString());
+      }).then((value) => Navigator.of(context).pop());
     }
+
+    setState(() {
+      isPageLoading = false;
+    });
   }
 
   @override
