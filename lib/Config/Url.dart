@@ -12,7 +12,6 @@ class Url {
     'orders': {
       'store': baseUrl + '/orders/store',
       'fetch': baseUrl + '/orders/fetch',
-      'delete': baseUrl + '/orders', //+id
     },
   };
 
@@ -22,6 +21,4 @@ class Url {
       'Accept': 'application/json',
     },
   };
-
-  const Url();
 }
