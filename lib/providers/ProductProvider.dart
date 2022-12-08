@@ -104,11 +104,8 @@ class ProductProvider with ChangeNotifier {
     );
 
     if (_response.statusCode >= 400) {
-      print(_response.body);
       throw const HttpException('Coudn\' update product');
     } else {
-      print('here');
-      print(_response.body);
       _items[_prodIndex] = product;
       notifyListeners();
     }

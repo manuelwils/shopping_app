@@ -39,10 +39,13 @@ class ProductDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 5),
-            Text(
-              '${product.description}',
-              style: const TextStyle(
-                fontSize: 14,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                '${product.description}',
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
               ),
             ),
           ],
