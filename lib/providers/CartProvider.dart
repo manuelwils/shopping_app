@@ -16,7 +16,7 @@ class CartProvider extends ChangeNotifier {
   double get totalSum {
     double total = 0.0;
     _items.forEach((key, item) {
-      total += item.amount! * item.quatity!;
+      total += item.amount! * item.quantity!;
     });
     return total;
   }
@@ -29,7 +29,7 @@ class CartProvider extends ChangeNotifier {
           id: existingItem.id,
           title: existingItem.title,
           amount: existingItem.amount,
-          quatity: existingItem.quatity! + 1,
+          quantity: existingItem.quantity! + 1,
         ),
       );
     } else {
@@ -39,7 +39,7 @@ class CartProvider extends ChangeNotifier {
           id: DateTime.now().toString(),
           title: title,
           amount: amount,
-          quatity: 1,
+          quantity: 1,
         ),
       );
     }
@@ -58,14 +58,14 @@ class CartProvider extends ChangeNotifier {
 
   void removeSingleProduct(String productId) {
     if (!_items.containsKey(productId)) return;
-    if (_items[productId]!.quatity! > 1) {
+    if (_items[productId]!.quantity! > 1) {
       _items.update(
         productId,
         (existingItem) => CartItem(
           id: existingItem.id,
           title: existingItem.title,
           amount: existingItem.amount,
-          quatity: existingItem.quatity! - 1,
+          quantity: existingItem.quantity! - 1,
         ),
       );
     } else {

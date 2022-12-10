@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
 
 import '../Providers/CartProvider.dart';
 import '../Providers/OrderProvider.dart';
@@ -7,11 +8,22 @@ import '../Widgets/CartItem.dart';
 import '../Widgets/Components/AlertDialog.dart';
 import './OrderScreen.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static const String routeName = '/cart';
   CartScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
   bool _isPageLoading = false;
+
+  void _setLoadingStatus() {
+    setState(() {
+      _isPageLoading = !_isPageLoading;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +73,7 @@ class CartScreen extends StatelessWidget {
                   id: item.id,
                   title: item.title,
                   amount: item.amount,
-                  quantity: item.quatity,
+                  quantity: item.quantity,
                 );
               },
               itemCount: cart.itemCount,
@@ -75,16 +87,21 @@ class CartScreen extends StatelessWidget {
         width: 100,
         child: FloatingActionButton(
           onPressed: () async {
+            _setLoadingStatus();
             await Provider.of<OrderProvider>(context, listen: false)
                 .addOrders(cart.items.values.toList(), cart.totalSum)
                 .catchError((exception) async {
+              _setLoadingStatus();
               await showAlertDialog(context, 'Whoops!', exception.toString());
             }).then((_) {
+              _setLoadingStatus();
               cart.clear();
               Navigator.of(context).pushReplacementNamed(OrderScreen.routeName);
             });
           },
-          child: const Text('ORDER NOW'),
+          child: _isPageLoading
+              ? const CircularProgressIndicator(color: Colors.white)
+              : const Text('ORDER NOW'),
           backgroundColor: Theme.of(context).primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

@@ -1,5 +1,5 @@
 class Url {
-  static const String baseUrl = 'https://f8e3-105-113-10-23.ngrok.io/api';
+  static const String baseUrl = 'http://fe33-105-113-13-42.ngrok.io/api';
 
   static const Map<String, Map<String, String>> to = {
     'product': {

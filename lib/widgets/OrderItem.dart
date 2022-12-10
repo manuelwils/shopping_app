@@ -79,13 +79,13 @@ class _OrderItemState extends State<OrderItem> {
                             ),
                           ),
                           Text(
-                            '${product.quatity} x ${product.amount}',
+                            '${product.quantity} x ${product.amount}',
                             style: const TextStyle(
                               color: Colors.grey,
                             ),
                           ),
                           Text(
-                            '\$${product.amount! * product.quatity!}',
+                            '\$${product.amount! * product.quantity!}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w600,
                             ),

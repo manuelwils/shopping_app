@@ -8,7 +8,7 @@ import '../Screens/OrderScreen.dart';
 
 Map<String, Widget Function(BuildContext)> pageRoutes = {
   ProductDetailScreen.routeName: (context) => const ProductDetailScreen(),
-  CartScreen.routeName: (context) => const CartScreen(),
+  CartScreen.routeName: (context) => CartScreen(),
   OrderScreen.routeName: (context) => const OrderScreen(),
   UserProductScreen.routeName: (context) => const UserProductScreen(),
   EditProductScreen.routeName: (context) => const EditProductScreen(),

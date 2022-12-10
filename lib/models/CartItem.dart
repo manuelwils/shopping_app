@@ -4,12 +4,12 @@ class CartItem {
   final String? id;
   final String? title;
   final double? amount;
-  final int? quatity;
+  final int? quantity;
 
   CartItem({
     @required this.id,
     @required this.title,
     @required this.amount,
-    @required this.quatity,
+    @required this.quantity,
   });
 }
