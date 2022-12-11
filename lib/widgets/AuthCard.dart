@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../Exceptions/HttpException.dart';
 import '../Screens/Auth/AuthScreen.dart';
+import '../Services/Auth.dart';
 
 class AuthCard extends StatefulWidget {
   @override
@@ -17,7 +20,7 @@ class _AuthCardState extends State<AuthCard> {
   var _isLoading = false;
   final _passwordController = TextEditingController();
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
@@ -26,10 +29,22 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    if (_authMode == AuthMode.Login) {
-      // Log user in
-    } else {
-      // Sign user up
+    try {
+      if (_authMode == AuthMode.Login) {
+        await Provider.of<Auth>(context, listen: false).login(
+          _authData['email']!,
+          _authData['password']!,
+        );
+      } else {
+        await Provider.of<Auth>(context, listen: false).signUp(
+          _authData['email']!,
+          _authData['password']!,
+        );
+      }
+    } on HttpException catch (exception) {
+      print(exception.toString());
+    } catch (exception) {
+      print(exception.toString());
     }
     setState(() {
       _isLoading = false;
@@ -113,26 +128,32 @@ class _AuthCardState extends State<AuthCard> {
                 if (_isLoading)
                   const CircularProgressIndicator()
                 else
-                  RaisedButton(
-                    child:
-                        Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
-                    onPressed: _submit,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                  ElevatedButton(
+                    child: Text(
+                      _authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP',
+                      style: const TextStyle(color: Colors.white),
                     ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 8.0),
-                    color: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).primaryTextTheme.button!.color,
+                    onPressed: _submit,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor),
+                    ),
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(30),
+                    // ),
+                    // padding: const EdgeInsets.symmetric(
+                    //     horizontal: 30.0, vertical: 8.0),
+                    // color: Theme.of(context).primaryColor,
+                    // textColor: Theme.of(context).primaryTextTheme.button!.color,
                   ),
-                FlatButton(
+                TextButton(
                   child: Text(
                       '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
                   onPressed: _switchAuthMode,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  textColor: Theme.of(context).primaryColor,
+                  // padding:
+                  //     const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                  // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  // textColor: Theme.of(context).primaryColor,
                 ),
               ],
             ),

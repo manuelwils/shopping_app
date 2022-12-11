@@ -23,12 +23,12 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> loadAllProducts() async {
-    final _getProductUrl = Uri.parse(Url.to['product']!['fetch']!);
+    final _route = Uri.parse(Url.to['product']!['fetch']!);
     final List<Product> _loadedProducts = [];
 
     try {
-      final http.Response fetchedData = await http.get(_getProductUrl);
-      List<dynamic> products = jsonDecode(fetchedData.body);
+      final _reponse = await http.get(_route, headers: Url().headers);
+      List<dynamic> products = jsonDecode(_reponse.body);
 
       for (var product in products) {
         _loadedProducts.add(
@@ -50,9 +50,9 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    final _addProductUrl = Uri.parse(Url.to['product']!['store']!);
+    final _route = Uri.parse(Url.to['product']!['store']!);
 
-    final _productBody = {
+    final _payload = {
       'title': product.title,
       'amount': product.amount.toString(),
       'description': product.description,
@@ -61,9 +61,9 @@ class ProductProvider with ChangeNotifier {
 
     try {
       final _response = await http.post(
-        _addProductUrl,
-        body: jsonEncode(_productBody),
-        headers: Url.headers['json_headers'],
+        _route,
+        body: jsonEncode(_payload),
+        headers: Url().headers,
       );
       final Map<String, dynamic> result = jsonDecode(_response.body);
 
@@ -83,15 +83,14 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> editProduct(String productId, Product product) async {
-    final _editProductUrl =
-        Uri.parse(Url.to['product']!['edit']! + '/$productId');
+    final _route = Uri.parse(Url.to['product']!['edit']! + '/$productId');
     final _prodIndex = _items.indexWhere((product) => product.id == productId);
 
     if (_prodIndex == -1) {
       return;
     }
 
-    final _productBody = {
+    final _payload = {
       'id': productId,
       'title': product.title,
       'amount': product.amount.toString(),
@@ -99,8 +98,9 @@ class ProductProvider with ChangeNotifier {
       'image': product.image,
     };
     final _response = await http.put(
-      _editProductUrl,
-      body: _productBody,
+      _route,
+      body: jsonEncode(_payload),
+      headers: Url().headers,
     );
 
     if (_response.statusCode >= 400) {
@@ -112,8 +112,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String productId) async {
-    final _deleteProductUrl =
-        Uri.parse(Url.to['product']!['delete']! + '/$productId');
+    final _route = Uri.parse(Url.to['product']!['delete']! + '/$productId');
 
     final _prodIndex = _items.indexWhere((product) => product.id == productId);
     Product? oldProduct = _items[_prodIndex];
@@ -122,8 +121,8 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
 
     final response = await http.delete(
-      _deleteProductUrl,
-      headers: Url.headers['json_headers'],
+      _route,
+      headers: Url().headers,
     );
 
     if (response.statusCode >= 400) {

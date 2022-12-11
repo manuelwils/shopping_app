@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 import '../Exceptions/HttpException.dart';
 import '../Config/Url.dart';
@@ -20,7 +19,7 @@ class OrderProvider with ChangeNotifier {
     if (cart.isEmpty) {
       return;
     }
-    final _addOrdersUrl = Uri.parse(Url.to['orders']!['store']!);
+    final _route = Uri.parse(Url.to['orders']!['store']!);
 
     final _data = {
       'amount': amount.toString(),
@@ -35,9 +34,9 @@ class OrderProvider with ChangeNotifier {
     };
 
     final _response = await http.post(
-      _addOrdersUrl,
+      _route,
       body: jsonEncode(_data),
-      headers: Url.headers['json_headers'],
+      headers: Url().headers,
     );
 
     if (_response.statusCode >= 400) {
@@ -57,9 +56,10 @@ class OrderProvider with ChangeNotifier {
   }
 
   Future<void> loadAllOrders() async {
-    final _getOrderUrl = Uri.parse(Url.to['orders']!['fetch']!);
+    final _route = Uri.parse(Url.to['orders']!['fetch']!);
 
-    final http.Response _response = await http.get(_getOrderUrl);
+    final http.Response _response =
+        await http.get(_route, headers: Url().headers);
     final result = jsonDecode(_response.body);
 
     if (_response.statusCode >= 400) {

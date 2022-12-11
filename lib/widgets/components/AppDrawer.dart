@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../Screens/Auth/AuthScreen.dart';
 import '../../Screens/UserProductScreen.dart';
 import '../../Screens/OrderScreen.dart';
 
@@ -15,25 +16,39 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Hello Friend'),
             automaticallyImplyLeading: false,
           ),
-          ListTile(
-            leading: const Icon(Icons.shop),
-            title: const Text('Shop'),
-            onTap: () => Navigator.of(context).pushReplacementNamed('/'),
+          builListTile(
+            'Shop',
+            Icons.shop,
+            () => Navigator.of(context).pushReplacementNamed('/'),
           ),
-          ListTile(
-            leading: const Icon(Icons.shopping_cart),
-            title: const Text('Orders'),
-            onTap: () => Navigator.of(context)
+          builListTile(
+            'Orders',
+            Icons.shopping_cart,
+            () => Navigator.of(context)
                 .pushReplacementNamed(OrderScreen.routeName),
           ),
-          ListTile(
-            leading: const Icon(Icons.manage_accounts),
-            title: const Text('Manage'),
-            onTap: () => Navigator.of(context)
+          builListTile(
+            'Manage',
+            Icons.manage_accounts,
+            () => Navigator.of(context)
                 .pushReplacementNamed(UserProductScreen.routeName),
+          ),
+          builListTile(
+            'Logout',
+            Icons.logout,
+            () => Navigator.of(context)
+                .pushReplacementNamed(AuthScreen.routeName),
           ),
         ],
       ),
     );
   }
+}
+
+Widget builListTile(String title, IconData icon, VoidCallback callback) {
+  return ListTile(
+    leading: Icon(icon),
+    title: Text(title),
+    onTap: callback,
+  );
 }

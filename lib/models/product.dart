@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,18 +24,18 @@ class Product with ChangeNotifier {
   });
 
   Future<void> toggleFavoriteStatus() async {
-    final _updateFavStatusUrl =
-        Uri.parse(Url.to['product']!['patch']! + '/$id');
+    final _route = Uri.parse(Url.to['product']!['patch']! + '/$id');
     bool? _oldStatus = favorite;
 
     favorite = !favorite;
     notifyListeners();
 
     final _response = await http.patch(
-      _updateFavStatusUrl,
-      body: {
+      _route,
+      body: jsonEncode({
         'favorite': favorite == true ? '1' : '0',
-      },
+      }),
+      headers: Url().headers,
     );
 
     if (_response.statusCode >= 400) {
