@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 
-import '../Providers/CartProvider.dart';
-import '../Providers/OrderProvider.dart';
-import '../Widgets/CartItem.dart';
-import '../Widgets/Components/AlertDialog.dart';
-import './OrderScreen.dart';
+import '../../Providers/CartProvider.dart';
+import '../../Providers/OrderProvider.dart';
+import '../../Widgets/Cart/CartItem.dart';
+import '../../Widgets/Components/AlertDialog.dart';
+import '../Orders/OrderScreen.dart';
 
 class CartScreen extends StatefulWidget {
   static const String routeName = '/cart';
@@ -92,6 +92,7 @@ class _CartScreenState extends State<CartScreen> {
                 .addOrders(cart.items.values.toList(), cart.totalSum)
                 .catchError((exception) async {
               _setLoadingStatus();
+              print(exception);
               await showAlertDialog(context, 'Whoops!', exception.toString());
             }).then((_) {
               _setLoadingStatus();

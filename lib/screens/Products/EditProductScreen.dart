@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Models/Product.dart';
-import '../Providers/ProductProvider.dart';
-import '../Widgets/components/AlertDialog.dart';
-import '../Widgets/components/SnackBar.dart';
+import '../../Models/Product.dart';
+import '../../Providers/ProductProvider.dart';
+import '../../Widgets/components/AlertDialog.dart';
+import '../../Widgets/components/SnackBar.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const String routeName = '/edit-product';

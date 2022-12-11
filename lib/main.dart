@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import './Bootstrap/AppProviders.dart';
 import './Routes/PageRoutes.dart';
-import './Screens/ProductOverviewScreen.dart';
+import 'Screens/Products/ProductOverviewScreen.dart';
 import './Screens/Auth/AuthScreen.dart';
 import './Services/Auth.dart';
 

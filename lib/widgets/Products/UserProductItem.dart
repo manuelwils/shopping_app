@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Providers/ProductProvider.dart';
-import '../Screens/EditProductScreen.dart';
-import './Components/SnackBar.dart';
-import './Components/DeleteDialog.dart';
+import '../../Providers/ProductProvider.dart';
+import '../../Screens/Products/EditProductScreen.dart';
+import '../Components/SnackBar.dart';
+import '../Components/DeleteDialog.dart';
 
 class UserProductItem extends StatelessWidget {
   final String id;

@@ -21,21 +21,21 @@ class OrderProvider with ChangeNotifier {
     }
     final _route = Uri.parse(Url.to['orders']!['store']!);
 
-    final _data = {
+    final _payload = {
       'amount': amount.toString(),
       'products': cart.map((item) {
-        return CartItem(
-          id: item.id,
-          title: item.title,
-          amount: item.amount,
-          quantity: item.quantity,
-        );
+        return {
+          'id': item.id,
+          'title': item.title,
+          'amount': item.amount,
+          'quantity': item.quantity,
+        };
       }).toList(),
     };
 
     final _response = await http.post(
       _route,
-      body: jsonEncode(_data),
+      body: jsonEncode(_payload),
       headers: Url().headers,
     );
 
@@ -75,20 +75,18 @@ class OrderProvider with ChangeNotifier {
             amount: double.parse(order['amount']),
             products: order['products'].forEach(
               (item) {
-                final _ord = CartItem(
+                CartItem(
                   id: item['id'],
                   title: item['title'],
                   amount: item['amount'],
                   quantity: item['quantity'],
                 );
-                return _ord;
               },
             ),
             orderTime: DateTime.parse(order['created_at']),
           ),
         );
         _orders = _loadedOrders;
-        print(orders);
         notifyListeners();
       }
     }

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app/Config/Url.dart';
 
-import '../Providers/ProductProvider.dart';
-import '../Widgets/components/AppDrawer.dart';
-import './CartScreen.dart';
-import '../Providers/CartProvider.dart';
-import '../Widgets/components/Badge.dart';
-import '../Widgets/ProductGrid.dart';
+import '../../Providers/ProductProvider.dart';
+import '../../Widgets/components/AppDrawer.dart';
+import '../Cart/CartScreen.dart';
+import '../../Providers/CartProvider.dart';
+import '../../Widgets/components/Badge.dart';
+import '../../Widgets/Products/ProductGrid.dart';
 
 enum FilterOption {
   favorite,
@@ -24,16 +24,22 @@ class ProductOverviewScreen extends StatefulWidget {
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   bool _showFavorite = false;
   bool isPageLoading = true;
+  bool isProductsFetched = false;
 
   @override
   void initState() {
-    Provider.of<ProductProvider>(context, listen: false).loadAllProducts().then(
-      (_) {
-        setState(() {
-          isPageLoading = false;
-        });
-      },
-    );
+    if (!isProductsFetched) {
+      Provider.of<ProductProvider>(context, listen: false)
+          .loadAllProducts()
+          .then(
+        (_) {
+          setState(() {
+            isPageLoading = !isPageLoading;
+            isProductsFetched = !isProductsFetched;
+          });
+        },
+      );
+    }
     super.initState();
   }
 

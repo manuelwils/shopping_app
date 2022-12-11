@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Exceptions/HttpException.dart';
-import '../Screens/Auth/AuthScreen.dart';
-import '../Services/Auth.dart';
+import '../../Exceptions/HttpException.dart';
+import '../../Screens/Auth/AuthScreen.dart';
+import '../../Services/Auth.dart';
 
 class AuthCard extends StatefulWidget {
   @override

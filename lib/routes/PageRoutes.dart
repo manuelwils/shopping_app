@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../Screens/EditProductScreen.dart';
-import '../Screens/UserProductScreen.dart';
-import '../Screens/CartScreen.dart';
-import '../Screens/ProductDetailScreen.dart';
-import '../Screens/OrderScreen.dart';
+import '../Screens/Products/EditProductScreen.dart';
+import '../Screens/Products/UserProductScreen.dart';
+import '../Screens/Cart/CartScreen.dart';
+import '../Screens/Products/ProductDetailScreen.dart';
+import '../Screens/Orders/OrderScreen.dart';
 import '../Screens/Auth/AuthScreen.dart';
 
 Map<String, Widget Function(BuildContext)> pageRoutes = {

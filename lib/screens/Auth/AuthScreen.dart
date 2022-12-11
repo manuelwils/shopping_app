@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../Widgets/AuthCard.dart';
+import '../../Widgets/Auth/AuthCard.dart';
 
 enum AuthMode { Signup, Login }
 

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:intl/intl.dart';
 
 import '../Exceptions/HttpException.dart';
 import '../Config/Url.dart';
@@ -41,11 +40,10 @@ class Auth with ChangeNotifier {
     );
 
     if (_response.statusCode >= 400) {
-      //final errors = jsonDecode(_response.body);
+      final errors = jsonDecode(_response.body);
       throw const HttpException('could not authenticate');
     }
     final data = jsonDecode(_response.body);
-    print(data);
 
     _userId = data['user']['id'].toString();
     _token = data['user']['token'];
