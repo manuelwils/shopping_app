@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../Screens/Auth/AuthScreen.dart';
+import '../../Services/Auth.dart';
 import '../../Screens/Products/UserProductScreen.dart';
 import '../../Screens/Orders/OrderScreen.dart';
 
@@ -33,12 +34,10 @@ class AppDrawer extends StatelessWidget {
             () => Navigator.of(context)
                 .pushReplacementNamed(UserProductScreen.routeName),
           ),
-          builListTile(
-            'Logout',
-            Icons.logout,
-            () => Navigator.of(context)
-                .pushReplacementNamed(AuthScreen.routeName),
-          ),
+          builListTile('Logout', Icons.logout, () {
+            Navigator.of(context).pop();
+            Provider.of<Auth>(context, listen: false).logout();
+          }),
         ],
       ),
     );
