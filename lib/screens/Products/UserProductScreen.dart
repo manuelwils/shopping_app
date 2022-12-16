@@ -12,7 +12,7 @@ class UserProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<ProductProvider>(context);
+    final productsData = Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Products'),
@@ -27,7 +27,7 @@ class UserProductScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       body: RefreshIndicator(
         onRefresh: () => Provider.of<ProductProvider>(context, listen: false)
-            .loadAllProducts(),
+            .loadAllProducts(true),
         child: ListView.builder(
             itemBuilder: (context, index) => UserProductItem(
                   productsData.items[index].id!,

@@ -22,12 +22,13 @@ class ProductProvider with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
-  Future<void> loadAllProducts() async {
+  Future<void> loadAllProducts([bool userProducts = false]) async {
     final _route = Uri.parse(Url.to['product']!['fetch']!);
     final List<Product> _loadedProducts = [];
-
+    final headers = Url().headers;
+    headers['user'] = userProducts.toString();
     try {
-      final _reponse = await http.get(_route, headers: Url().headers);
+      final _reponse = await http.get(_route, headers: headers);
       List<dynamic> products = jsonDecode(_reponse.body);
 
       for (var product in products) {
