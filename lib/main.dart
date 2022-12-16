@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import './Bootstrap/AppProviders.dart';
 import './Routes/PageRoutes.dart';
-import 'Screens/Products/ProductOverviewScreen.dart';
+import './Screens/Components/SplashScreen.dart';
+import './Screens/Products/ProductOverviewScreen.dart';
 import './Screens/Auth/AuthScreen.dart';
 import './Services/Auth.dart';
 
@@ -24,7 +25,15 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.purple,
             accentColor: Colors.deepOrange,
           ),
-          home: !auth.isAuth ? AuthScreen() : const ProductOverviewScreen(),
+          home: auth.isAuth
+              ? const ProductOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, snapshot) =>
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: pageRoutes,
         ),
       ),

@@ -3,11 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:shopping_app/Config/Url.dart';
 
 import '../../Providers/ProductProvider.dart';
+import '../../Services/Auth.dart';
 import '../../Widgets/components/AppDrawer.dart';
 import '../Cart/CartScreen.dart';
 import '../../Providers/CartProvider.dart';
 import '../../Widgets/components/Badge.dart';
 import '../../Widgets/Products/ProductGrid.dart';
+import '../Components/SplashScreen.dart';
 
 enum FilterOption {
   favorite,
@@ -23,28 +25,11 @@ class ProductOverviewScreen extends StatefulWidget {
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   bool _showFavorite = false;
-  bool isPageLoading = true;
-  bool isProductsFetched = false;
-
-  @override
-  void initState() {
-    if (!isProductsFetched) {
-      Provider.of<ProductProvider>(context, listen: false)
-          .loadAllProducts()
-          .then(
-        (_) {
-          setState(() {
-            isPageLoading = !isPageLoading;
-            isProductsFetched = !isProductsFetched;
-          });
-        },
-      );
-    }
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    final fetchProducts =
+        Provider.of<ProductProvider>(context, listen: false).loadAllProducts();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shopping App'),
@@ -82,16 +67,16 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ],
       ),
       drawer: const AppDrawer(),
-      body: isPageLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : RefreshIndicator(
-              onRefresh: () =>
-                  Provider.of<ProductProvider>(context, listen: false)
-                      .loadAllProducts(),
-              child: ProductGrid(_showFavorite),
-            ),
+      body: FutureBuilder(
+        future: fetchProducts,
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? SplashScreen()
+                : RefreshIndicator(
+                    onRefresh: () => fetchProducts,
+                    child: ProductGrid(_showFavorite),
+                  ),
+      ),
     );
   }
 }

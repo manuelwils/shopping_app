@@ -1,5 +1,5 @@
 class Url {
-  static const String baseUrl = 'https://b820-105-113-12-139.ngrok.io/api';
+  static const String baseUrl = 'http://f661-105-113-40-140.ngrok.io/api';
   static String token = '';
 
   static const Map<String, Map<String, String>> to = {
