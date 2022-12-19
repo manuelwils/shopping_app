@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'CartItem.dart';
+import './CartItem.dart';
 
 class OrderItem {
   final String? id;

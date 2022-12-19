@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../Providers/ProductProvider.dart';
 import '../../Widgets/components/AppDrawer.dart';
 import '../../Widgets/Products/UserProductItem.dart';
-import 'EditProductScreen.dart';
+import './EditProductScreen.dart';
 
 class UserProductScreen extends StatelessWidget {
   static const String routeName = '/manage';
@@ -12,7 +12,7 @@ class UserProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<ProductProvider>(context, listen: false);
+    final productsData = Provider.of<ProductProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Products'),

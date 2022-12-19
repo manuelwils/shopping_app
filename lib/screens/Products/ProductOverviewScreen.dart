@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopping_app/Config/Url.dart';
 
 import '../../Providers/ProductProvider.dart';
-import '../../Services/Auth.dart';
 import '../../Widgets/components/AppDrawer.dart';
-import '../Cart/CartScreen.dart';
 import '../../Providers/CartProvider.dart';
 import '../../Widgets/components/Badge.dart';
 import '../../Widgets/Products/ProductGrid.dart';
 import '../Components/SplashScreen.dart';
+import '../Cart/CartScreen.dart';
 
 enum FilterOption {
   favorite,
