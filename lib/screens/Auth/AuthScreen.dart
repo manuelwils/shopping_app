@@ -7,6 +7,8 @@ import '../../Widgets/Auth/AuthCard.dart';
 enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatelessWidget {
+  const AuthScreen({Key? key}) : super(key: key);
+  
   static const routeName = '/auth';
 
   @override
@@ -59,7 +61,7 @@ class AuthScreen extends StatelessWidget {
                         ],
                       ),
                       child: Text(
-                        'MyShop',
+                        'Shopify',
                         style: TextStyle(
                           color: Theme.of(context)
                               .accentTextTheme

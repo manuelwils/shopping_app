@@ -24,9 +24,11 @@ class ProductProvider with ChangeNotifier {
 
   Future<void> loadAllProducts([bool userProducts = false]) async {
     final _route = Uri.parse(Url.to['product']!['fetch']!);
-    final List<Product> _loadedProducts = [];
     final headers = Url().headers;
     headers['user'] = userProducts.toString();
+
+    final List<Product> _loadedProducts = [];
+
     try {
       final _reponse = await http.get(_route, headers: headers);
       List<dynamic> products = jsonDecode(_reponse.body);

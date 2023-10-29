@@ -17,24 +17,24 @@ class AppDrawer extends StatelessWidget {
             title: const Text('Hello Friend'),
             automaticallyImplyLeading: false,
           ),
-          builListTile(
+          buildListTile(
             'Shop',
             Icons.shop,
             () => Navigator.of(context).pushReplacementNamed('/'),
           ),
-          builListTile(
+          buildListTile(
             'Orders',
             Icons.shopping_cart,
             () => Navigator.of(context)
                 .pushReplacementNamed(OrderScreen.routeName),
           ),
-          builListTile(
+          buildListTile(
             'Manage',
             Icons.manage_accounts,
             () => Navigator.of(context)
                 .pushReplacementNamed(UserProductScreen.routeName),
           ),
-          builListTile('Logout', Icons.logout, () {
+          buildListTile('Logout', Icons.logout, () {
             Navigator.of(context).pop();
             Provider.of<Auth>(context, listen: false).logout();
           }),
@@ -44,7 +44,7 @@ class AppDrawer extends StatelessWidget {
   }
 }
 
-Widget builListTile(String title, IconData icon, VoidCallback callback) {
+Widget buildListTile(String title, IconData icon, VoidCallback callback) {
   return ListTile(
     leading: Icon(icon),
     title: Text(title),

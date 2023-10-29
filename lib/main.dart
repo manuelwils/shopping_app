@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'ShoppingApp',
+          title: 'ShopLerion',
           theme: ThemeData(
             primarySwatch: Colors.purple,
             accentColor: Colors.deepOrange,
@@ -29,10 +29,10 @@ class MyApp extends StatelessWidget {
               ? const ProductOverviewScreen()
               : FutureBuilder(
                   future: auth.tryAutoLogin(),
-                  builder: (context, snapshot) =>
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? SplashScreen()
-                          : AuthScreen(),
+                  builder: (context, snapshot) => 
+                      snapshot.connectionState == ConnectionState.waiting 
+                          ? SplashScreen()   
+                          : const AuthScreen(),
                 ),
           routes: pageRoutes,
         ),
